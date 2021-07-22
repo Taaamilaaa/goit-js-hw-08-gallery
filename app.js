@@ -111,13 +111,9 @@ function openModal(event) {
   }
   refs.modalRef.classList.add("is-open");
 
-  openBigImg(event.target);
-}
-
-function openBigImg(ev) {
-  refs.bigImgRef.src = ev.getAttribute("data-source");
-  refs.bigImgRef.alt = ev.alt;
-}
+  refs.bigImgRef.src = event.target.getAttribute("data-source");
+  refs.bigImgRef.alt = event.target.alt;
+};
 
 // закрытие модального окна========================================
 
