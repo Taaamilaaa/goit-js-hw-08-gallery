@@ -115,13 +115,8 @@ function openModal(event) {
 }
 
 function openBigImg(ev) {
-  const bigImgUrl = ev.getAttribute("data-source");
-  const bigImgAlt = ev.alt;
-  const bigImg = document.createElement("img");
-  bigImg.src = bigImgUrl;
-  bigImg.alt = bigImgAlt;
-  
-  refs.modalContentRefs.insertAdjacentElement("afterbegin", bigImg);
+  refs.bigImgRef.src = ev.getAttribute("data-source");
+  refs.bigImgRef.alt = ev.alt;
 }
 
 // закрытие модального окна========================================
@@ -134,8 +129,8 @@ function closeModal() {
 }
 
 function cleaner() {
-  refs.modalContentRefs.innerHTML =
-    '<img class="lightbox__image" src="" alt="" />';
+  refs.bigImgRef.src = "";
+  refs.bigImgRef.alt = "";
 }
 
 //закрытие по escape======================================================
@@ -155,26 +150,50 @@ function onOverlayModalClose(event) {
     closeModal();
   }
 }
-
+//=======================================================================
 //========================================================================
-window.addEventListener('keyup', flippingImg);
+window.addEventListener("keyup", flippingImg);
+
+//создает массив src little=========================
+function createArrOfSrc(listOfImages) {
+  const srcArr = [];
+  listOfImages.forEach((item) => {
+    const { preview } = item;
+    srcArr.push(preview);
+  });
+
+  return srcArr;
+}
+const srcArr = createArrOfSrc(galleryItems);
+
+//big src array===========================================
+function createArrOfBigSrc(listOfImages) {
+  const srcArr = [];
+  listOfImages.forEach((item) => {
+    const { original } = item;
+    srcArr.push(original);
+  });
+
+  return srcArr;
+}
+const arrBigSrc = createArrOfBigSrc(galleryItems);
+//===================================================
 
 function flippingImg(event) {
-  
-  if (refs.modalRef.classList.contains('is-open') && event.target.key === 'ArrowRight') {
-    console.log(event.key);
-    galleryItems.forEach(item => {
-      const img = document.createElement('img')
-      img.src = item.original;
-      img.alt = item.description;
-     
-    })
-     return img;
-  }
+  const currentImg = event.target.querySelector("img");
+  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+    return;
   }
   
+  flipImg(event, currentImg);
+}
 
-/////////////////////////////////
-
-
-
+function flipImg(event, currentImg) {
+  arrBigSrc.forEach(src => {
+    if (event.key === "ArrowRight") {  
+    refs.bigImgRef.src = arrBigSrc[srcArr.indexOf(currentImg.src) + 1];
+  } else if (event.key === "ArrowLeft") {
+    refs.bigImgRef.src = arrBigSrc[srcArr.indexOf(currentImg.src) - 1];
+  }
+  })  
+}
