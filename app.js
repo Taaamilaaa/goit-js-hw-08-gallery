@@ -148,48 +148,61 @@ function onOverlayModalClose(event) {
 }
 //=======================================================================
 //========================================================================
-window.addEventListener("keyup", flippingImg);
+window.addEventListener("keydown", flippingImg);
 
-//создает массив src little=========================
+
+function flippingImg(event) {
+  const currentImg = event.target.querySelector("img");
+
+  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+    return;
+  }
+  else if (event.key === "ArrowRight") {
+    flipArrowRight(currentImg) 
+  }
+  else if (event.key === "ArrowLeft") {
+    flippingArrowLeft(currentImg)
+  }
+
+};
+function flipArrowRight(curEl) {
+  srcArr.forEach((item) => {
+    if (srcArr.indexOf(item) === srcArr.indexOf(curEl.src)) {
+      let index = srcArr.indexOf(item);
+      index += 1;      
+      refs.bigImgRef.src = arrBigSrc[index];
+    }
+  })
+};
+function flippingArrowLeft(curEl) {
+    srcArr.forEach((item) => {
+   if (srcArr.indexOf(item) === srcArr.indexOf(curEl.src)) {
+     let index = srcArr.indexOf(item);
+     index -= 1;
+      refs.bigImgRef.src = arrBigSrc[index]
+    }
+  })
+};
+
+// //создает массив src little=========================
 function createArrOfSrc(listOfImages) {
   const srcArr = [];
   listOfImages.forEach((item) => {
     const { preview } = item;
     srcArr.push(preview);
   });
-
   return srcArr;
 }
 const srcArr = createArrOfSrc(galleryItems);
 
-//big src array===========================================
+// //big src array===========================================
 function createArrOfBigSrc(listOfImages) {
   const srcArr = [];
   listOfImages.forEach((item) => {
     const { original } = item;
     srcArr.push(original);
   });
-
   return srcArr;
 }
 const arrBigSrc = createArrOfBigSrc(galleryItems);
-//===================================================
 
-function flippingImg(event) {
-  const currentImg = event.target.querySelector("img");
-  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
-    return;
-  }
-  
-  flipImg(event, currentImg);
-}
-
-function flipImg(event, currentImg) {
-  arrBigSrc.forEach(src => {
-    if (event.key === "ArrowRight") {  
-    refs.bigImgRef.src = arrBigSrc[srcArr.indexOf(currentImg.src) + 1];
-  } else if (event.key === "ArrowLeft") {
-    refs.bigImgRef.src = arrBigSrc[srcArr.indexOf(currentImg.src) - 1];
-  }
-  })  
-}
