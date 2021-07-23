@@ -166,8 +166,8 @@ function flippingImg(event) {
 
 };
 function flipArrowRight(curEl) {
-  srcArr.forEach((item) => {
-    if (srcArr.indexOf(item) === srcArr.indexOf(curEl.src)) {
+  srcArr.forEach((item) => {      
+    if (srcArr.indexOf(item) === srcArr.indexOf(curEl.src)) {    
       let index = srcArr.indexOf(item);
       index += 1;      
       refs.bigImgRef.src = arrBigSrc[index];
@@ -179,8 +179,9 @@ function flippingArrowLeft(curEl) {
    if (srcArr.indexOf(item) === srcArr.indexOf(curEl.src)) {
      let index = srcArr.indexOf(item);
      index -= 1;
-      refs.bigImgRef.src = arrBigSrc[index]
-    }
+     refs.bigImgRef.src = arrBigSrc[index];
+      }
+      
   })
 };
 
